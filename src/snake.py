@@ -1,10 +1,12 @@
 import pygame
+from pygame.constants import K_LEFT
 
 # All the basic objects
 from player import Player
 from food import Food
 
 from settings import *
+from starter import message
 
 def main():
     # initialize pygame and create window
@@ -13,6 +15,12 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("My Game")
     clock = pygame.time.Clock()
+
+    # Define the font styles for the game
+    font_style = pygame.font.SysFont("arial", 30)
+    score_font = pygame.font.SysFont("optima", 30)
+
+
 
     # Create a player object
     player = Player()
@@ -23,13 +31,32 @@ def main():
 
     # Game loop
     running = True
+    game_started= False
     while running:
         # keep loop running at the right speed
+        """
+        while game_started == True:
+            screen.fill(BLUE)
+            message = font_style.render("You've Lost the Game", True, BLUE)
+            screen.blit(message, [WIDTH // 5, HEIGHT // 3])
+            pygame.display.update()
+ 
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        game_over = True
+                        game_close = False
+                    if event.key == pygame.K_c:
+                        main()
+        """
+
         clock.tick(FPS)
         # Process input (events)
         for event in pygame.event.get():
             # check for closing window
             if event.type == pygame.QUIT:
+                running = False
+            if player.rect.right < 0:
                 running = False
 
         # Update
@@ -43,6 +70,7 @@ def main():
 
     pygame.quit()
 
+    
 
 if __name__ == "__main__":
     main()
