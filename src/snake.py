@@ -6,7 +6,6 @@ from player import Player
 from food import Food
 
 from settings import *
-from starter import message
 
 def main():
     # initialize pygame and create window
@@ -34,8 +33,8 @@ def main():
     game_started= False
     while running:
         # keep loop running at the right speed
-        """
         while game_started == True:
+            print("Here")
             screen.fill(BLUE)
             message = font_style.render("You've Lost the Game", True, BLUE)
             screen.blit(message, [WIDTH // 5, HEIGHT // 3])
@@ -44,11 +43,10 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
-                        game_over = True
-                        game_close = False
+                        running = True
+                        game_started = False
                     if event.key == pygame.K_c:
                         main()
-        """
 
         clock.tick(FPS)
         # Process input (events)
@@ -56,12 +54,12 @@ def main():
             # check for closing window
             if event.type == pygame.QUIT:
                 running = False
-            if player.rect.right < 0:
-                running = False
-
+            
         # Update
+        if (player.rect.x < 0):
+            game_started = True
         all_sprites.update()
-
+        print(f'X pos {player.rect.x}')
         # Draw / render
         screen.fill(BLACK)
         all_sprites.draw(screen)
